@@ -1,0 +1,1817 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Tamilarasan - Frontend Developer & UI/UX Designer. Building modern web applications with cutting-edge technologies.">
+    <meta name="keywords" content="Frontend Developer, UI/UX Designer, Web Developer, React, JavaScript, HTML, CSS, Portfolio">
+    <meta name="author" content="Tamilarasan">
+    
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" crossorigin="anonymous" />
+    
+    <!-- Box Icons -->
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="style.css">
+    
+    <title>Tamilarasan Portfolio</title>
+</head>
+<body>
+    <!-- Enhanced Loading Screen -->
+    <div class="loading" id="loading">
+        <div class="loading-content">
+            <div class="loading-logo">
+                <span class="logo-letter">T</span>
+                <span class="logo-letter">A</span>
+                <span class="logo-letter">M</span>
+                <span class="logo-letter">I</span>
+                <span class="logo-letter">L</span>
+            </div>
+            <div class="loading-spinner-container">
+                <div class="loading-spinner"></div>
+                <div class="loading-dots">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+            <div class="loading-text">
+                <p class="loading-message">Loading Portfolio...</p>
+                <div class="loading-progress">
+                    <div class="progress-bar"></div>
+                </div>
+                <p class="loading-percentage">0%</p>
+            </div>
+        </div>
+        <div class="loading-particles"></div>
+    </div>
+    
+    <!-- Navigation Header -->
+    <header class="header" id="header">
+        <!-- Scroll Progress Bar -->
+        <div class="scroll-progress" id="scroll-progress"></div>
+        <div class="nav-container">
+            <a href="#home" class="logo">
+                <span class="logo-text">Tamilarasan</span>
+                <span class="logo-subtitle">Software Developer</span>
+            </a>
+            
+            <nav class="navbar">
+              
+                <a href="#home" class="nav-link">
+                    <i class="fas fa-home nav-icon"></i>
+                    <span class="nav-text">Home</span>
+                </a>
+                <a href="#about" class="nav-link">
+                    <i class="fas fa-user nav-icon"></i>
+                    <span class="nav-text">About</span>
+                </a>
+                <a href="#experience" class="nav-link">
+                    <i class="fas fa-briefcase nav-icon"></i>
+                    <span class="nav-text">Experience</span>
+                </a>
+                <a href="#education" class="nav-link">
+                    <i class="fas fa-graduation-cap nav-icon"></i>
+                    <span class="nav-text">Education</span>
+                </a>
+                <a href="#certifications" class="nav-link">
+                    <i class="fas fa-certificate nav-icon"></i>
+                    <span class="nav-text">Certifications</span>
+                </a>
+                <a href="#skills" class="nav-link">
+                    <i class="fas fa-code nav-icon"></i>
+                    <span class="nav-text">Skills</span>
+                </a>
+                <a href="#projects" class="nav-link">
+                    <i class="fas fa-project-diagram nav-icon"></i>
+                    <span class="nav-text">Projects</span>
+                </a>
+                <a href="#contact" class="nav-link">
+                    <i class="fas fa-envelope nav-icon"></i>
+                    <span class="nav-text">Contact</span>
+                </a>
+            </nav>
+            
+            <div class="header-actions">
+                <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">
+                    <i class="fas fa-moon theme-icon-dark"></i>
+                    <i class="fas fa-sun theme-icon-light"></i>
+                </button>
+                <button class="mobile-menu-toggle" id="mobile-menu-toggle">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+        </div>
+        <!-- Navigation Overlay -->
+        <div class="nav-overlay" id="nav-overlay"></div>
+    </header>
+    <script>
+        // Mobile Menu Toggle
+        let menuIcon = document.querySelector('#menu-icon');
+        let navbar = document.querySelector('.navbar');
+        
+        if (menuIcon && navbar) {
+            menuIcon.onclick = () => {
+                menuIcon.classList.toggle('fa-xmark');
+                navbar.classList.toggle('active');
+            }
+        }
+
+        // Header Scroll Effect
+        window.addEventListener('scroll', () => {
+            const header = document.querySelector('.header');
+            if (header) {
+                header.classList.toggle('scrolled', window.scrollY > 100);
+            }
+        });
+
+        // Active Navigation Link
+        const sections = document.querySelectorAll('section');
+        const navLinks = document.querySelectorAll('.navbar a');
+
+        window.addEventListener('scroll', () => {
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                if (scrollY >= (sectionTop - 200)) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href').includes(current)) {
+                    link.classList.add('active');
+                }
+            });
+        });
+
+        // Smooth reveal animations on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('appear');
+                }
+            });
+        }, observerOptions);
+
+        // Add fade-in class to elements for scroll animations
+        document.addEventListener('DOMContentLoaded', () => {
+            const animatedElements = document.querySelectorAll('.about-content, .cer-content, .container, .portfolio-content, .contact-right, .contact-left');
+            animatedElements.forEach(el => {
+                el.classList.add('fade-in');
+                observer.observe(el);
+            });
+
+            // Animate skill bars when they come into view
+            const skillBars = document.querySelectorAll('.skillbar');
+            skillBars.forEach(bar => {
+                observer.observe(bar);
+            });
+
+            // Close mobile menu when clicking on a link
+            navLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    if (navbar && navbar.classList.contains('active')) {
+                        navbar.classList.remove('active');
+                        menuIcon.classList.remove('fa-xmark');
+                    }
+                });
+            });
+
+            // Add hover effect to project cards
+            const projectCards = document.querySelectorAll('.row');
+            projectCards.forEach(card => {
+                card.addEventListener('mouseenter', () => {
+                    card.style.transform = 'translateY(-15px) scale(1.02)';
+                });
+                
+                card.addEventListener('mouseleave', () => {
+                    card.style.transform = 'translateY(0) scale(1)';
+                });
+            });
+
+            // Typing animation for the main title
+            const mainTitle = document.querySelector('.home-content h1');
+            if (mainTitle) {
+                const text = mainTitle.textContent;
+                mainTitle.textContent = '';
+                mainTitle.style.opacity = '1';
+                
+                let i = 0;
+                const typeWriter = () => {
+                    if (i < text.length) {
+                        mainTitle.textContent += text.charAt(i);
+                        i++;
+                        setTimeout(typeWriter, 100);
+                    }
+                };
+                
+                setTimeout(typeWriter, 1000);
+            }
+
+            // Add particle effect to background
+            createParticles();
+        });
+
+        // Particle background effect
+        function createParticles() {
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            canvas.style.position = 'fixed';
+            canvas.style.top = '0';
+            canvas.style.left = '0';
+            canvas.style.width = '100%';
+            canvas.style.height = '100%';
+            canvas.style.pointerEvents = 'none';
+            canvas.style.zIndex = '-1';
+            canvas.style.opacity = '0.1';
+            document.body.appendChild(canvas);
+
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+
+            const particles = [];
+            const particleCount = 50;
+
+            class Particle {
+                constructor() {
+                    this.x = Math.random() * canvas.width;
+                    this.y = Math.random() * canvas.height;
+                    this.vx = (Math.random() - 0.5) * 0.5;
+                    this.vy = (Math.random() - 0.5) * 0.5;
+                    this.radius = Math.random() * 2 + 1;
+                }
+
+                update() {
+                    this.x += this.vx;
+                    this.y += this.vy;
+
+                    if (this.x < 0 || this.x > canvas.width) this.vx *= -1;
+                    if (this.y < 0 || this.y > canvas.height) this.vy *= -1;
+                }
+
+                draw() {
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+                    ctx.fillStyle = '#3498db';
+                    ctx.fill();
+                }
+            }
+
+            for (let i = 0; i < particleCount; i++) {
+                particles.push(new Particle());
+            }
+
+            function animate() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                
+                particles.forEach(particle => {
+                    particle.update();
+                    particle.draw();
+                });
+
+                // Draw connections between nearby particles
+                particles.forEach((particle1, i) => {
+                    particles.slice(i + 1).forEach(particle2 => {
+                        const dx = particle1.x - particle2.x;
+                        const dy = particle1.y - particle2.y;
+                        const distance = Math.sqrt(dx * dx + dy * dy);
+
+                        if (distance < 100) {
+                            ctx.beginPath();
+                            ctx.moveTo(particle1.x, particle1.y);
+                            ctx.lineTo(particle2.x, particle2.y);
+                            ctx.strokeStyle = `rgba(52, 152, 219, ${(100 - distance) / 100 * 0.2})`;
+                            ctx.stroke();
+                        }
+                    });
+                });
+
+                requestAnimationFrame(animate);
+            }
+
+            animate();
+
+            window.addEventListener('resize', () => {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+            });
+        }
+
+        // Add cursor trail effect
+        let mouseX = 0, mouseY = 0;
+        let trail = [];
+
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+            
+            trail.push({x: mouseX, y: mouseY, time: Date.now()});
+            
+            if (trail.length > 10) {
+                trail.shift();
+            }
+        });
+
+        // Enhanced Form submission with validation and animation
+        const contactForm = document.querySelector('.contact-form');
+        if (contactForm) {
+            const inputs = contactForm.querySelectorAll('input, textarea');
+            const submitBtn = contactForm.querySelector('button[type="submit"]');
+            
+            // Add floating label effect and validation
+            inputs.forEach(input => {
+                const wrapper = document.createElement('div');
+                wrapper.className = 'form-field';
+                const label = document.createElement('label');
+                label.textContent = input.placeholder;
+                label.className = 'floating-label';
+                
+                input.parentNode.insertBefore(wrapper, input);
+                wrapper.appendChild(label);
+                wrapper.appendChild(input);
+                
+                input.addEventListener('focus', () => {
+                    wrapper.classList.add('focused');
+                });
+                
+                input.addEventListener('blur', () => {
+                    if (!input.value) {
+                        wrapper.classList.remove('focused');
+                    }
+                    validateField(input, wrapper);
+                });
+                
+                input.addEventListener('input', () => {
+                    if (input.value) {
+                        wrapper.classList.add('filled');
+                    } else {
+                        wrapper.classList.remove('filled');
+                    }
+                    wrapper.classList.remove('error');
+                });
+                
+                // Clear placeholder since we're using floating labels
+                input.placeholder = '';
+            });
+            
+            function validateField(input, wrapper) {
+                const value = input.value.trim();
+                let isValid = true;
+                
+                if (input.hasAttribute('required') && !value) {
+                    isValid = false;
+                } else if (input.type === 'email' && value) {
+                    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                    isValid = emailRegex.test(value);
+                }
+                
+                if (!isValid) {
+                    wrapper.classList.add('error');
+                    createShakeAnimation(wrapper);
+                } else {
+                    wrapper.classList.remove('error');
+                    wrapper.classList.add('success');
+                }
+                
+                return isValid;
+            }
+            
+            function createShakeAnimation(element) {
+                element.classList.add('shake');
+                setTimeout(() => {
+                    element.classList.remove('shake');
+                }, 500);
+            }
+            
+            // Form submission handler
+            contactForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                
+                let isFormValid = true;
+                inputs.forEach(input => {
+                    const wrapper = input.closest('.form-field');
+                    if (!validateField(input, wrapper)) {
+                        isFormValid = false;
+                    }
+                });
+                
+                if (isFormValid) {
+                    // Show loading state
+                    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
+                    submitBtn.disabled = true;
+                    submitBtn.classList.add('loading');
+                    
+                    // Create success notification
+                    setTimeout(() => {
+                        playSound('success');
+                        showNotification('Message sent successfully! 🎉', 'success');
+                        contactForm.reset();
+                        inputs.forEach(input => {
+                            const wrapper = input.closest('.form-field');
+                            wrapper.classList.remove('focused', 'filled', 'success');
+                        });
+                        
+                        submitBtn.innerHTML = 'Send Message';
+                        submitBtn.disabled = false;
+                        submitBtn.classList.remove('loading');
+                    }, 2000);
+                    
+                    // Actually submit the form (uncomment for real submission)
+                    // contactForm.submit();
+                } else {
+                    playSound('error');
+                    showNotification('Please fill in all required fields correctly.', 'error');
+                }
+            });
+        }
+        
+        // Notification system
+        function showNotification(message, type = 'info') {
+            // Play notification sound
+            playSound('notification');
+            
+            const notification = document.createElement('div');
+            notification.className = `notification ${type}`;
+            notification.innerHTML = `
+                <i class="fas fa-${type === 'success' ? 'check-circle' : type === 'error' ? 'exclamation-circle' : 'info-circle'}"></i>
+                <span>${message}</span>
+                <button class="notification-close">&times;</button>
+            `;
+            
+            document.body.appendChild(notification);
+            
+            // Animate in
+            setTimeout(() => notification.classList.add('show'), 100);
+            
+            // Auto remove after 5 seconds
+            const autoRemove = setTimeout(() => {
+                removeNotification(notification);
+            }, 5000);
+            
+            // Manual close
+            notification.querySelector('.notification-close').addEventListener('click', () => {
+                clearTimeout(autoRemove);
+                removeNotification(notification);
+            });
+        }
+        
+        function removeNotification(notification) {
+            notification.classList.add('hide');
+            setTimeout(() => {
+                if (notification.parentNode) {
+                    notification.parentNode.removeChild(notification);
+                }
+            }, 300);
+        }
+
+
+    </script>
+
+    <!-- Enhanced Hero Section -->
+    <section class="hero" id="home">
+        <!-- Floating Elements -->
+        <div class="floating-shapes">
+            <div class="shape shape-1"></div>
+            <div class="shape shape-2"></div>
+            <div class="shape shape-3"></div>
+            <div class="shape shape-4"></div>
+            <div class="shape shape-5"></div>
+            <div class="shape shape-6"></div>
+        </div>
+        
+        <!-- Interactive Background Grid -->
+        <div class="bg-grid"></div>
+        
+        <div class="hero-container">
+            <div class="hero-content">
+                <div class="hero-text">
+                    <span class="greeting">Hello, I'm</span>
+                    <h1 class="hero-name">Tamilarasan S</h1>
+                    <div class="hero-title">
+                        <!-- <span>Frontend Developer & </span> -->
+                        <!-- <br> -->
+                        <span class="typing-text">Software Developer</span>
+                    </div>
+
+                    <div class="hero-social-links">
+                        <a href="https://github.com/tamilarasan6258" target="_blank" aria-label="GitHub">
+                            <i class="fab fa-github"></i>
+                        </a>
+                        <a href="https://linkedin.com/in/tamilarasan6258" target="_blank" aria-label="LinkedIn">
+                            <i class="fab fa-linkedin"></i>
+                        </a>
+                        <a href="https://twitter.com/tamilarasan6258" target="_blank" aria-label="Twitter">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="https://instagram.com/tamilarasan6258" target="_blank" aria-label="Instagram">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="mailto:sstamilarasan14@gmail.com" aria-label="Email">
+                            <i class="fas fa-envelope"></i>
+                        </a>
+                    </div>
+                    <div class="hero-buttons">
+                        <a href="#contact" class="btn btn-primary">Get In Touch</a>
+                        <a href="TAMILARASAN.pdf" class="btn btn-outline" download target="_blank">Download Resume</a>
+                    </div>
+                </div>
+                <div class="hero-visual">
+                    <div class="profile-card">
+                        <div class="code-preview">
+                            <div class="code-header">
+                                <div class="dots">
+                                    <span></span><span></span><span></span>
+                                </div>
+                                <span>portfolio.js</span>
+                            </div>
+                            <div class="code-content">
+                                <div class="code-line"><span class="keyword">const</span> <span class="variable">developer</span> = {</div>
+                                <div class="code-line">  <span class="property">name</span>: <span class="string">'Tamilarasan'</span>,</div>
+                                <div class="code-line">  <span class="property">role</span>: <span class="string">'Frontend Developer'</span>,</div>
+                                <div class="code-line">  <span class="property">skills</span>: [<span class="string">'Java'</span>, <span class="string">'Angular'</span>,<span class="string">'javascript'</span>],</div>
+                                <div class="code-line">  <span class="property">passion</span>: <span class="string">'Building efficient and scalable solutions that solve real-world problems'</span></div>
+                                <div class="code-line">};</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="about" id="about">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-subtitle">Get to know me</span>
+                <h2 class="section-title">About <span class="highlight">Me</span></h2>
+            </div>
+            <div class="about-content">
+                <div class="about-text">
+                    <h3>WHO I AM ?</h3>
+                    <p>
+                        I'm a recent Information Technology graduate from University College of Engineering, 
+                        BIT Campus, Trichy. With a passion for creating modern web applications, I specialize 
+                        in frontend development using React, JavaScript, and modern web technologies.
+                    </p>
+                    <p>
+                        I have experience building and deploying web applications, with a strong focus on 
+                        user experience design. I'm eager to contribute to innovative projects and 
+                        collaborative development teams.
+                    </p>
+                    <div class="stats">
+                        <div class="stat-item">
+                            <span class="stat-number">6+</span>
+                            <span class="stat-label">Projects</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number">2+</span>
+                            <span class="stat-label">Years Learning</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number">5+</span>
+                            <span class="stat-label">Technologies</span>
+                        </div>
+                    </div>
+                    
+                    <div class="about-resume">
+                        <a href="TAMILARASAN.pdf" class="btn-resume-about" download target="_blank">
+                            <i class="fas fa-download"></i>
+                            Download Resume
+                        </a>
+                    </div>
+                </div>
+                <div class="about-img">
+                    <img src="Tamilarasan.jpg" alt="Tamilarasan - Frontend Developer">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Experience Section -->
+    <section class="experience" id="experience">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-subtitle">My professional journey</span>
+                <h2 class="section-title">Work <span class="highlight">Experience</span></h2>
+            </div>
+            <div class="timeline">
+
+                <div class="timeline-item">
+                    <div class="timeline-icon">
+                        <i class="fas fa-code"></i>
+                    </div>
+                    <div class="timeline-content">
+                        <h3>Software Development Intern</h3>
+                        <span class="company">ILINK DIGITAL</span>
+                        <span class="duration">FEB - AUG 2025</span>
+                        <p>Comprehensive 6-month software development internship focused on full-stack web development using the MEAN stack (MongoDB, Express.js, Angular, and Node.js). Gained hands-on experience building scalable web applications, working with databases, and implementing modern development practices in a professional environment.</p>
+                        <button class="btn-more-details" onclick="openIlinkModal()">
+                            <i class="fas fa-info-circle"></i>
+                            More Details
+                        </button>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-icon">
+                        <i class="fas fa-code"></i>
+                    </div>
+                    <div class="timeline-content">
+                        <h3>Web Development Intern</h3>
+                        <span class="company">CODSOFT</span>
+                        <span class="duration">2023</span>
+                        <p>Completed one month online internship focusing on modern web development practices, working on real-world projects and gaining hands-on experience with frontend technologies.</p>
+                        <button class="btn-more-details" onclick="openExperienceModal()">
+                            <i class="fas fa-info-circle"></i>
+                            More Details
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section class="skills" id="skills">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-subtitle">What I'm good at</span>
+                <h2 class="section-title">My <span class="highlight">Skills</span></h2>
+            </div>
+            
+            <!-- Skills Grid -->
+            <div class="skills-grid">
+                <!-- Frontend Skills -->
+                <div class="skill-item">
+                    <div class="skill-image">
+                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg" alt="HTML5">
+                    </div>
+                    <span class="skill-name">HTML5</span>
+                </div>
+                
+                <div class="skill-item">
+                    <div class="skill-image">
+                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg" alt="CSS3">
+                    </div>
+                    <span class="skill-name">CSS3</span>
+                </div>
+                
+                <div class="skill-item">
+                    <div class="skill-image">
+                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg" alt="JavaScript">
+                    </div>
+                    <span class="skill-name">JavaScript</span>
+                </div>
+                
+                <div class="skill-item">
+                    <div class="skill-image">
+                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/angularjs/angularjs-original.svg" alt="Angular">
+                    </div>
+                    <span class="skill-name">Angular</span>
+                </div>
+                
+                <!-- Backend Skills -->
+                <div class="skill-item">
+                    <div class="skill-image">
+                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original.svg" alt="Java">
+                    </div>
+                    <span class="skill-name">Java</span>
+                </div>
+                
+                <div class="skill-item">
+                    <div class="skill-image">
+                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" alt="Python">
+                    </div>
+                    <span class="skill-name">Python</span>
+                </div>
+                
+                <div class="skill-item">
+                    <div class="skill-image">
+                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg" alt="MySQL">
+                    </div>
+                    <span class="skill-name">MySQL</span>
+                </div>
+                
+                <div class="skill-item">
+                    <div class="skill-image">
+                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mongodb/mongodb-original.svg" alt="MongoDB">
+                    </div>
+                    <span class="skill-name">MongoDB</span>
+                </div>
+                
+                <div class="skill-item">
+                    <div class="skill-image">
+                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg" alt="Node.js">
+                    </div>
+                    <span class="skill-name">Node.js</span>
+                </div>
+                
+                <div class="skill-item">
+                    <div class="skill-image">
+                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/express/express-original.svg" alt="Express.js">
+                    </div>
+                    <span class="skill-name">Express.js</span>
+                </div>
+                
+                <div class="skill-item">
+                    <div class="skill-image">
+                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/csharp/csharp-original.svg" alt="C#">
+                    </div>
+                    <span class="skill-name">C#</span>
+                </div>
+                
+                <div class="skill-item">
+                    <div class="skill-image">
+                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/php/php-original.svg" alt="PHP">
+                    </div>
+                    <span class="skill-name">PHP</span>
+                </div>
+                
+                <!-- Design & Tools -->
+                <div class="skill-item">
+                    <div class="skill-image">
+                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/figma/figma-original.svg" alt="Figma">
+                    </div>
+                    <span class="skill-name">Figma</span>
+                </div>
+                
+                <div class="skill-item">
+                    <div class="skill-image">
+                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg" alt="Git">
+                    </div>
+                    <span class="skill-name">Git</span>
+                </div>
+                
+                <div class="skill-item">
+                    <div class="skill-image">
+                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg" alt="GitHub">
+                    </div>
+                    <span class="skill-name">GitHub</span>
+                </div>
+                
+                <div class="skill-item">
+                    <div class="skill-image">
+                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vscode/vscode-original.svg" alt="VS Code">
+                    </div>
+                    <span class="skill-name">VS Code</span>
+                </div>
+                
+                <div class="skill-item">
+                    <div class="skill-image">
+                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/canva/canva-original.svg" alt="Canva">
+                    </div>
+                    <span class="skill-name">Canva</span>
+                </div>
+                
+                <div class="skill-item">
+                    <div class="skill-image">
+                        <img src="https://github.githubassets.com/images/modules/site/copilot/copilot.png" alt="GitHub Copilot">
+                    </div>
+                    <span class="skill-name">GitHub Copilot</span>
+                </div>
+                
+                <div class="skill-item">
+                    <div class="skill-image">
+                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postman/postman-original.svg" alt="Postman">
+                    </div>
+                    <span class="skill-name">Postman</span>
+                </div>
+                
+                <div class="skill-item">
+                    <div class="skill-image">
+                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/npm/npm-original-wordmark.svg" alt="NPM">
+                    </div>
+                    <span class="skill-name">NPM</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section class="projects" id="projects">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-subtitle">My recent work</span>
+                <h2 class="section-title">Featured <span class="highlight">Projects</span></h2>
+            </div>
+            <div class="projects-grid">
+                 <div class="project-card">
+                    <div class="project-image">
+                        <img src="https://images.unsplash.com/photo-1611224923853-80b023f02d71?w=600&h=400&fit=crop&crop=center" alt="Task Management Kanban Board" />
+                    </div>
+                    <div class="project-content">
+                        <h3>Task Management System (Kanban Board)</h3>
+                        <p>Kanban board application for task organization with drag-and-drop functionality, built using the MEAN stack during internship.</p>
+                        <div class="tech-stack">
+                            <span class="tech-tag">Angular</span>
+                            <span class="tech-tag">Node.js</span>
+                            <span class="tech-tag">MongoDB</span>
+                            <span class="tech-tag">Express</span>
+                        </div>
+                        <div class="project-links">
+                            <a href="https://kanbanapp-task.netlify.app/" target="_blank" class="project-link">
+                                <i class="fas fa-external-link-alt"></i>
+                                Live Demo
+                            </a>
+                            <a href="https://github.com/tamilarasan6258/task-management-system-project-nodejs" target="_blank" class="project-link">
+                                <i class="fab fa-github"></i>
+                                View Code
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="project-card">
+                    <div class="project-image">
+                        <img src="https://images.unsplash.com/photo-1560472354-b33ff0c44a43?w=600&h=400&fit=crop&crop=center" alt="IT Asset Management System" />
+                    </div>
+                    <div class="project-content">
+                        <h3>IT Asset Management System</h3>
+                        <p>Comprehensive system for tracking and managing IT assets, assignments, and maintenance schedules with reporting features.</p>
+                        <div class="tech-stack">
+                            <span class="tech-tag">Angular</span>
+                            <span class="tech-tag">Node.js</span>
+                            <span class="tech-tag">MongoDB</span>
+                            <span class="tech-tag">TypeScript</span>
+                        </div>
+                        <div class="project-links">
+                            <a href="https://it-asset.netlify.app/" target="_blank" class="project-link">
+                                <i class="fas fa-external-link-alt"></i>
+                                Live Demo
+                            </a>
+                            <a href="https://github.com/tamilarasan6258/it-asset-management" target="_blank" class="project-link">
+                                <i class="fab fa-github"></i>
+                                View Code
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-image">
+                        <img src="https://images.unsplash.com/photo-1509062522246-3755977927d7?w=600&h=400&fit=crop&crop=center" alt="Student Management System" />
+                    </div>
+                    <div class="project-content">
+                        <h3>Student Management System</h3>
+                        <p>First Year Internal Mark Information System (FIMIS) built with PHP and MySQL for tracking student performance.</p>
+                        <div class="tech-stack">
+                            <span class="tech-tag">PHP</span>
+                            <span class="tech-tag">MySQL</span>
+                            <span class="tech-tag">HTML/CSS</span>
+                            <span class="tech-tag">JavaScript</span>
+
+                        </div>
+                        <div class="project-links">
+                            <a href="http://14.139.181.249/firstyear/" target="_blank" class="project-link">
+                                <i class="fas fa-external-link-alt"></i>
+                                Live Demo
+                            </a>
+                            <a href="https://github.com/tamilarasan6258/FIMIS" target="_blank" class="project-link">
+                                <i class="fab fa-github"></i>
+                                View Code
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <div class="project-image">
+                        <img src="https://images.unsplash.com/photo-1541807084-5c52b6b3adef?w=600&h=400&fit=crop&crop=center" alt="Laptop Showroom Website Design" />
+                    </div>
+                    <div class="project-content">
+                        <h3>Laptop Showroom Website</h3>
+                        <p>Modern e-commerce UI/UX design for laptop showroom with intuitive user experience design.</p>
+                        <div class="tech-stack">
+                            <span class="tech-tag">Figma</span>
+                            <span class="tech-tag">UI/UX</span>
+                            <span class="tech-tag">Prototyping</span>
+                        </div>
+                        <div class="project-links">
+                            <a href="https://www.figma.com/proto/KKpv70o6tgckOf7EXKVvls/Untitled" target="_blank" class="project-link">
+                                <i class="fas fa-external-link-alt"></i>
+                                View Design
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <div class="project-image">
+                        <img src="https://images.unsplash.com/photo-1580582932707-520aed937b7b?w=600&h=400&fit=crop&crop=center" alt="School Management System" />
+                        <!-- <img src="https://images.unsplash.com/photo-1497486751825-1233686d5d80?w=600&h=400&fit=crop&crop=center" alt="School Management System" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" /> -->
+                        <div class="project-placeholder" style="display: none;">
+                            <i class="fas fa-school"></i>
+                        </div>
+                    </div>
+                    <div class="project-content">
+                        <h3>School Management System</h3>
+                        <p>Desktop application for managing student data and administrative tasks using Visual Basic.</p>
+                        <div class="tech-stack">
+                            <span class="tech-tag">Visual Basic</span>
+                            <span class="tech-tag">Database</span>
+                            <span class="tech-tag">Desktop App</span>
+                        </div>
+                    </div>
+                </div>
+
+               
+
+                
+            </div>
+        </div>
+    </section>
+
+    
+    <!-- Education Section -->
+    <section class="education" id="education">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-subtitle">My academic background</span>
+                <h2 class="section-title">Educational <span class="highlight">Qualifications</span></h2>
+            </div>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-icon">
+                        <i class="fas fa-graduation-cap"></i>
+                    </div>
+                    <div class="timeline-content">
+                        <h3>Bachelor of Engineering - Information Technology</h3>
+                        <span class="company">University College of Engineering, BIT Campus, Trichy</span>
+                        <span class="duration">2021 - 2025</span>
+                        <!-- <p>Bachelor's degree with focus on software development, web technologies, and modern programming practices. Gained comprehensive knowledge in computer science fundamentals and practical application development.</p> -->
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-icon">
+                        <i class="fas fa-school"></i>
+                    </div>
+                    <div class="timeline-content">
+                        <h3>Higher Secondary Education</h3>
+                        <span class="company">Bharathi Balamandir Matric Higher Secondary School, Chinnasalem</span>
+                        <span class="duration">2020 - 2021</span>
+                        <!-- <p>Completed 12th standard with Computer Science as the main subject. Developed foundational knowledge in programming concepts, computer applications, and mathematics. Achieved excellent academic performance with a strong focus on science and technology subjects.</p> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Certifications Section -->
+    <section class="certifications" id="certifications">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-subtitle">Professional development</span>
+                <h2 class="section-title">Certifications & <span class="highlight">Training</span></h2>
+            </div>
+            
+            <div class="certifications-grid">
+                <div class="certification-card">
+                    <div class="cert-icon">
+                        <i class="fab fa-java"></i>
+                    </div>
+                    <h3>Java Development</h3>
+                    <p>Object-oriented programming and enterprise development</p>
+                    <span class="cert-year">2023</span>
+                </div>
+                
+                <div class="certification-card">
+                    <div class="cert-icon">
+                        <i class="fab fa-python"></i>
+                    </div>
+                    <h3>Python Programming</h3>
+                    <p>Data structures, algorithms, and application development</p>
+                    <span class="cert-year">2023</span>
+                </div>
+                
+                <div class="certification-card">
+                    <div class="cert-icon">
+                        <i class="fab fa-angular"></i>
+                    </div>
+                    <h3>MEAN Stack Development</h3>
+                    <p>Full-stack web development with MongoDB, Express, Angular, Node.js</p>
+                    <span class="cert-year">2024-2025</span>
+                </div>
+                
+                <div class="certification-card">
+                    <div class="cert-icon">
+                        <i class="fab fa-github"></i>
+                    </div>
+                    <h3>GitHub Copilot</h3>
+                    <p>AI-powered coding assistant for enhanced productivity</p>
+                    <span class="cert-year">2025</span>
+                </div>
+                
+                <div class="certification-card">
+                    <div class="cert-icon">
+                        <i class="fas fa-code"></i>
+                    </div>
+                    <h3>Web Development</h3>
+                    <p>Modern web technologies and responsive design</p>
+                    <span class="cert-year">2024</span>
+                </div>
+                
+                <div class="certification-card">
+                    <div class="cert-icon">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <h3>AI Prompt Engineering</h3>
+                    <p>Advanced prompt design and AI model optimization</p>
+                    <span class="cert-year">2025</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- Contact Section -->
+    <section class="contact" id="contact">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-subtitle">Let's work together</span>
+                <h2 class="section-title">Get In <span class="highlight">Touch</span></h2>
+            </div>
+            <div class="contact-content">
+                <div class="contact-info">
+                    <ul class="contact-list">
+                        <li class="contact-list-item">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>Kallakurichi, Tamil Nadu, India</span>
+                        </li>
+                        <li class="contact-list-item">
+                            <i class="fas fa-envelope"></i>
+                            <span>sstamilarasan14@gmail.com</span>
+                        </li>
+                        <li class="contact-list-item">
+                            <i class="fas fa-phone"></i>
+                            <span>+91 82209 43571</span>
+                        </li>
+                    </ul>
+                    
+          
+
+                    <div class="contact-social-links">
+                        <a href="https://github.com/tamilarasan6258" target="_blank" aria-label="GitHub">
+                            <i class="fab fa-github"></i>
+                        </a>
+                        <a href="https://linkedin.com/in/tamilarasan6258" target="_blank" aria-label="LinkedIn">
+                            <i class="fab fa-linkedin"></i>
+                        </a>
+                        <a href="https://twitter.com/tamilarasan6258" target="_blank" aria-label="Twitter">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="https://instagram.com/tamilarasan6258" target="_blank" aria-label="Instagram">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="mailto:sstamilarasan14@gmail.com" aria-label="Email">
+                            <i class="fas fa-envelope"></i>
+                        </a>
+                    </div>
+                </div>
+                <form class="contact-form" action="https://api.web3forms.com/submit" method="POST">
+                    <input type="hidden" name="access_key" value="1311614e-6f93-4ab7-b85a-cf4cd6aace2d">
+                    <div class="form-group">
+                        <input type="text" name="name" placeholder="Your Name" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="email" name="email" placeholder="Your Email" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" name="subject" placeholder="Subject" required>
+                    </div>
+                    <div class="form-group">
+                        <textarea name="message" placeholder="Your Message" rows="5" required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Send Message</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+  
+    
+    <!-- Floating Action Elements -->
+    <div class="floating-elements">
+        <!-- Scroll to Top Button -->
+        <button class="scroll-to-top" id="scroll-to-top" aria-label="Scroll to top">
+            <i class="fas fa-arrow-up"></i>
+        </button>
+        
+        <!-- Floating Social Sidebar -->
+        <div class="social-sidebar">
+            <div class="social-sidebar-toggle" id="social-toggle">
+                <i class="fas fa-share-alt"></i>
+            </div>
+            <div class="social-links-float">
+                <a href="https://github.com/tamilarasan6258" target="_blank" class="social-float-link" data-tooltip="GitHub">
+                    <i class="fab fa-github"></i>
+                </a>
+                <a href="https://linkedin.com/in/tamilarasan6258" target="_blank" class="social-float-link" data-tooltip="LinkedIn">
+                    <i class="fab fa-linkedin"></i>
+                </a>
+                <a href="https://twitter.com/tamilarasan6258" target="_blank" class="social-float-link" data-tooltip="Twitter">
+                    <i class="fab fa-twitter"></i>
+                </a>
+                <a href="https://instagram.com/tamilarasan6258" target="_blank" class="social-float-link" data-tooltip="Instagram">
+                    <i class="fab fa-instagram"></i>
+                </a>
+                <a href="mailto:sstamilarasan14@gmail.com" class="social-float-link" data-tooltip="Email">
+                    <i class="fas fa-envelope"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Cursor Follower -->
+    <div class="cursor-follower" id="cursor-follower"></div>
+    <div class="cursor-dot" id="cursor-dot"></div>
+    
+    
+    <!-- Simple Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2024 Copyright Tamilarasan. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- ILINK DIGITAL Experience Modal -->
+    <div class="modal-overlay" id="ilinkModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Software Development Intern - ILINK DIGITAL</h2>
+                <button class="modal-close" onclick="closeIlinkModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="experience-details">
+                    <div class="detail-section">
+                        <h3><i class="fas fa-building"></i> Company Overview</h3>
+                        <p>ILINK DIGITAL is a leading technology consulting and digital transformation company that helps businesses leverage cutting-edge technologies to drive growth and innovation. The company specializes in cloud solutions, data analytics, and modern web application development.</p>
+                    </div>
+                    
+                    <div class="detail-section">
+                        <h3><i class="fas fa-briefcase"></i> Overview of Internship</h3>
+                        <p>As a Software Development Intern at ILINK DIGITAL, I participated in a comprehensive 6-month internship program focused on full-stack web development. This role provided extensive hands-on experience with the MEAN stack technology suite and modern development methodologies in a professional corporate environment.</p>
+                    </div>
+                    
+                    <div class="detail-section">
+                        <h3><i class="fas fa-tasks"></i> Key Responsibilities</h3>
+                        <ul>
+                            <li>Developed and maintained full-stack web applications using the MEAN stack (MongoDB, Express.js, Angular, Node.js)</li>
+                            <li>Designed and implemented RESTful APIs for seamless frontend-backend communication</li>
+                            <li>Created responsive and interactive user interfaces using Angular framework</li>
+                            <li>Worked with MongoDB for database design, queries, and data management</li>
+                            <li>Implemented authentication and authorization systems for secure applications</li>
+                            <li>Collaborated with senior developers on code reviews and best practice implementation</li>
+                            <li>Contributed to real-time project development</li>
+                            <li>Performed unit testing and debugging to ensure application reliability</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="detail-section">
+                        <h3><i class="fas fa-code"></i> Technologies & Tools</h3>
+                        <div class="tech-tags">
+                            <span class="tech-tag">MongoDB</span>
+                            <span class="tech-tag">Express.js</span>
+                            <span class="tech-tag">Angular</span>
+                            <span class="tech-tag">Node.js</span>
+                            <span class="tech-tag">TypeScript</span>
+                            <span class="tech-tag">JavaScript</span>
+                            <span class="tech-tag">HTML5/CSS3</span>
+                            <span class="tech-tag">Git</span>
+                            <span class="tech-tag">Postman</span>
+                            <span class="tech-tag">JWT</span>
+                            <span class="tech-tag">REST APIs</span>
+                            <span class="tech-tag">C#</span>
+                        </div>
+                    </div>
+                    
+                    <div class="detail-section">
+                        <h3><i class="fas fa-project-diagram"></i> Key Projects</h3>
+                        <div class="project-highlight">
+                            <h4>Task Management Application (Kanban Board)</h4>
+                            <!-- <p>Built a collaborative task management system with real-time updates, user roles, project tracking, and notification systems. Features included drag-and-drop interface, deadline management, and progress analytics.</p> -->
+                            <p>The system should allow users to create, view, edit, and manage tasks in an organized way using a Kanban board layout. Tasks must be categorized by status (To Do, In Progress, Done, Backlog) with drag-and-drop functionality for easy workflow management. The application should support filtering by priority and date, as well as pagination for better performance. Data must be securely stored and retrieved using a backend API with MongoDB as the database.</p>
+                        </div>
+                        <div class="project-highlight">
+                            <h4>IT Asset Management System</h4>
+                            <!-- <p>Contributed to a CRM system for client management, lead tracking, and sales pipeline management. Implemented data visualization dashboards and automated reporting features.</p> -->
+                            <p>The system should enable organizations to track and manage IT assets such as hardware and software efficiently. It must allow users to add, update, and assign assets to employees based on their roles. The application should provide reporting features to monitor asset status, usage, and maintenance schedules. Data should be stored securely and accessible through a user-friendly interface.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="detail-section">
+                        <h3><i class="fas fa-trophy"></i> Key Achievements</h3>
+                        <ul>
+                            <li>Successfully developed and deployed the Task Management System, including a fully functional Kanban Board, using Angular, Node.js, Express, and MongoDB.</li>
+                            <li>Gained in-depth knowledge of full-stack development, integrating frontend interfaces with backend services and databases.</li>
+                            <li>Learned best practices for clean code, version control, and application performance optimization.</li>
+                            <li>Completed the GitHub Copilot Certification, enhancing coding efficiency and leveraging AI-assisted development tools.</li>
+                            <li>Built a solid foundation in software development principles, version control, and project documentation, preparing for advanced roles in technology-driven environments.</li>
+
+                        </ul>
+                    </div>
+                    
+                    <div class="detail-section">
+                        <h3><i class="fas fa-lightbulb"></i> Learning Outcomes & Skills Developed</h3>
+                        <div class="learning-grid">
+                            <div class="learning-item">
+                                <h5>Technical Skills</h5>
+                                <p>Mastered full-stack development with MEAN stack, gained expertise in database design, API development, and modern JavaScript frameworks.</p>
+                            </div>
+                            <div class="learning-item">
+                                <h5>Professional Skills</h5>
+                                <p>Enhanced problem-solving abilities, improved communication skills.</p>
+                            </div>
+                            <div class="learning-item">
+                                <h5>Industry Exposure</h5>
+                                <p>Gained valuable insights into software development lifecycle, client interaction, and enterprise-level application architecture.</p>
+                            </div>
+                            <div class="learning-item">
+                                <h5>Team Collaboration</h5>
+                                <p>Developed strong teamwork skills, learned to work in cross-functional teams, and experienced real-world software development challenges.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="detail-section">
+                        <h3><i class="fas fa-certificate"></i> Internship Impact</h3>
+                        <p>This comprehensive internship at ILINK DIGITAL provided invaluable industry experience and significantly enhanced my technical capabilities. The exposure to real-world projects, professional development practices, and cutting-edge technologies has prepared me for a successful career in full-stack development. The mentorship received and the collaborative environment fostered both personal and professional growth, making this experience a cornerstone of my development journey.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Experience Details Modal -->
+    <div class="modal-overlay" id="experienceModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Web Development Intern - CODSOFT</h2>
+                <button class="modal-close" onclick="closeExperienceModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="experience-details">
+                    <div class="detail-section">
+                        <h3><i class="fas fa-briefcase"></i> Role Overview</h3>
+                        <p>As a Web Development Intern at CODSOFT, I participated in a comprehensive one-month online internship program designed to provide hands-on experience with modern web development practices and real-world project implementation.</p>
+                    </div>
+                    
+                    <div class="detail-section">
+                        <h3><i class="fas fa-tasks"></i> Key Responsibilities</h3>
+                        <ul>
+                            <li>Developed responsive web applications using HTML5, CSS3, and JavaScript</li>
+                            <li>Implemented modern UI/UX design principles and best practices</li>
+                            <li>Worked on multiple projects including landing pages and interactive web components</li>
+                            <li>Collaborated with team members through virtual meetings and code reviews</li>
+                            <li>Participated in daily stand-ups and project planning sessions</li>
+                            <li>Applied version control using Git and GitHub for project management</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="detail-section">
+                        <h3><i class="fas fa-code"></i> Technologies Used</h3>
+                        <div class="tech-tags">
+                            <span class="tech-tag">HTML5</span>
+                            <span class="tech-tag">CSS3</span>
+                            <span class="tech-tag">JavaScript</span>
+                            <span class="tech-tag">React</span>
+                            <span class="tech-tag">Git</span>
+                            <span class="tech-tag">GitHub</span>
+                            <span class="tech-tag">VS Code</span>
+                            <span class="tech-tag">Figma</span>
+                        </div>
+                    </div>
+                    
+                    <div class="detail-section">
+                        <h3><i class="fas fa-trophy"></i> Key Achievements</h3>
+                        <ul>
+                            <li>Successfully completed all assigned projects within deadlines</li>
+                            <li>Received positive feedback from mentors for code quality and design implementation</li>
+                            <li>Improved proficiency in modern web development frameworks and tools</li>
+                            <li>Enhanced problem-solving skills through debugging and optimization tasks</li>
+                            <li>Gained valuable experience in remote collaboration and project management</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="detail-section">
+                        <h3><i class="fas fa-lightbulb"></i> Learning Outcomes</h3>
+                        <p>This internship provided me with practical exposure to industry-standard development practices, modern web technologies, and collaborative development workflows. I gained confidence in building responsive, user-friendly web applications and developed a strong foundation for my career in frontend development.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Enhanced JavaScript -->
+    <script>
+            // Enhanced mobile menu toggle
+        document.addEventListener('DOMContentLoaded', function() {
+            // Theme Toggle Functionality
+            const themeToggle = document.getElementById('theme-toggle');
+            const body = document.body;
+            
+            // Check for saved theme preference
+            const savedTheme = localStorage.getItem('portfolio-theme');
+            const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            
+            // Set initial theme
+            const initialTheme = savedTheme || (systemPrefersDark ? 'dark' : 'light');
+            body.setAttribute('data-theme', initialTheme);
+            
+            // Theme toggle click handler
+            if (themeToggle) {
+                themeToggle.addEventListener('click', () => {
+                    const currentTheme = body.getAttribute('data-theme');
+                    const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+                    
+                    body.setAttribute('data-theme', newTheme);
+                    localStorage.setItem('portfolio-theme', newTheme);
+                    
+                    // Add ripple effect
+                    createRippleEffect(themeToggle);
+                });
+            }
+            
+            // Listen for system theme changes
+            window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+                if (!localStorage.getItem('portfolio-theme')) {
+                    body.setAttribute('data-theme', e.matches ? 'dark' : 'light');
+                }
+            });
+            
+            const mobileToggle = document.getElementById('mobile-menu-toggle');
+            const navbar = document.querySelector('.navbar');
+            const navOverlay = document.getElementById('nav-overlay');
+            
+            function openMobileMenu() {
+                mobileToggle.classList.add('active');
+                navbar.classList.add('mobile-active');
+                navOverlay.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }
+            
+            function closeMobileMenu() {
+                mobileToggle.classList.remove('active');
+                navbar.classList.remove('mobile-active');
+                navOverlay.classList.remove('active');
+                document.body.style.overflow = 'auto';
+            }
+            
+            if (mobileToggle) {
+                mobileToggle.addEventListener('click', () => {
+                    if (navbar.classList.contains('mobile-active')) {
+                        closeMobileMenu();
+                    } else {
+                        openMobileMenu();
+                    }
+                });
+            }
+            
+            // Close menu when clicking overlay
+            if (navOverlay) {
+                navOverlay.addEventListener('click', closeMobileMenu);
+            }
+
+            // Enhanced loading screen with progress simulation
+            const loading = document.getElementById('loading');
+            const progressBar = document.querySelector('.progress-bar');
+            const percentage = document.querySelector('.loading-percentage');
+            
+            let progress = 0;
+            const loadingInterval = setInterval(() => {
+                progress += Math.random() * 15;
+                if (progress > 100) progress = 100;
+                
+                if (progressBar) progressBar.style.width = progress + '%';
+                if (percentage) percentage.textContent = Math.floor(progress) + '%';
+                
+                if (progress >= 100) {
+                    clearInterval(loadingInterval);
+                    setTimeout(() => {
+                        if (loading) {
+                            loading.classList.add('fade-out');
+                            setTimeout(() => {
+                                loading.style.display = 'none';
+                            }, 800);
+                        }
+                    }, 500);
+                }
+            }, 100);
+
+            // Smooth scrolling for navigation links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                        // Close mobile menu if open
+                        if (navbar.classList.contains('mobile-active')) {
+                            closeMobileMenu();
+                        }
+                    }
+                });
+            });
+
+            // Typing effect for hero title
+            const typingText = document.querySelector('.typing-text');
+            if (typingText) {
+                const words = ['Software Developer','Full Stack Developer','Java Developer', 'Web Developer', 'Problem Solver','UI/UX Designer'];
+                let wordIndex = 0;
+                let charIndex = 0;
+                let isDeleting = false;
+
+                function typeEffect() {
+                    const currentWord = words[wordIndex];
+                    
+                    if (isDeleting) {
+                        typingText.textContent = currentWord.substring(0, charIndex - 1);
+                        charIndex--;
+                    } else {
+                        typingText.textContent = currentWord.substring(0, charIndex + 1);
+                        charIndex++;
+                    }
+
+                    if (!isDeleting && charIndex === currentWord.length) {
+                        setTimeout(() => isDeleting = true, 1000);
+                    } else if (isDeleting && charIndex === 0) {
+                        isDeleting = false;
+                        wordIndex = (wordIndex + 1) % words.length;
+                    }
+
+                    setTimeout(typeEffect, isDeleting ? 50 : 100);
+                }
+                
+                setTimeout(typeEffect, 1000);
+            }
+
+            // Advanced Scroll Animations with Intersection Observer
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+            
+            const scrollObserver = new IntersectionObserver((entries) => {
+                entries.forEach((entry, index) => {
+                    if (entry.isIntersecting) {
+                        setTimeout(() => {
+                            entry.target.classList.add('animate-in');
+                        }, index * 100); // Stagger animations
+                    }
+                });
+            }, observerOptions);
+            
+            // Observe elements for animations
+            const animatedElements = document.querySelectorAll(
+                '.hero-text, .hero-visual, .about-content, .section-header, .skill-item, .row, .timeline-item, .certification-card, .contact-content, .project-card'
+            );
+            
+            animatedElements.forEach(el => {
+                el.classList.add('animate-on-scroll');
+                scrollObserver.observe(el);
+            });
+            
+            // Parallax effect for hero section
+            const heroSection = document.querySelector('.hero');
+            if (heroSection) {
+                window.addEventListener('scroll', () => {
+                    const scrolled = window.pageYOffset;
+                    const rate = scrolled * -0.5;
+                    heroSection.style.transform = `translateY(${rate}px)`;
+                });
+            }
+
+            // Header scroll effect and progress bar
+            const scrollToTopBtn = document.getElementById('scroll-to-top');
+            
+            window.addEventListener('scroll', () => {
+                const header = document.querySelector('.header');
+                const progressBar = document.getElementById('scroll-progress');
+                const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+                
+                if (header) {
+                    header.classList.toggle('scrolled', scrollTop > 100);
+                }
+                
+                // Update scroll progress bar
+                if (progressBar) {
+                    const scrollHeight = document.documentElement.scrollHeight || document.body.scrollHeight;
+                    const clientHeight = document.documentElement.clientHeight;
+                    const scrollPercentage = (scrollTop / (scrollHeight - clientHeight)) * 100;
+                    
+                    progressBar.style.width = Math.min(scrollPercentage, 100) + '%';
+                }
+                
+                // Show/hide scroll to top button
+                if (scrollToTopBtn) {
+                    if (scrollTop > 300) {
+                        scrollToTopBtn.classList.add('visible');
+                    } else {
+                        scrollToTopBtn.classList.remove('visible');
+                    }
+                }
+            });
+            
+            // Scroll to top functionality
+            if (scrollToTopBtn) {
+                scrollToTopBtn.addEventListener('click', () => {
+                    window.scrollTo({
+                        top: 0,
+                        behavior: 'smooth'
+                    });
+                    createRippleEffect(scrollToTopBtn);
+                });
+            }
+            
+            // Social sidebar toggle
+            const socialToggle = document.getElementById('social-toggle');
+            const socialSidebar = document.querySelector('.social-sidebar');
+            
+            if (socialToggle && socialSidebar) {
+                socialToggle.addEventListener('click', () => {
+                    socialSidebar.classList.toggle('active');
+                    createRippleEffect(socialToggle);
+                });
+                
+                // Close social sidebar when clicking outside
+                document.addEventListener('click', (e) => {
+                    if (!socialSidebar.contains(e.target)) {
+                        socialSidebar.classList.remove('active');
+                    }
+                });
+            }
+            
+            // Cursor follower functionality
+            const cursorFollower = document.getElementById('cursor-follower');
+            const cursorDot = document.getElementById('cursor-dot');
+            
+            if (cursorFollower && cursorDot) {
+                let mouseX = 0, mouseY = 0;
+                let followerX = 0, followerY = 0;
+                
+                document.addEventListener('mousemove', (e) => {
+                    mouseX = e.clientX;
+                    mouseY = e.clientY;
+                    
+                    cursorDot.style.transform = `translate(${mouseX}px, ${mouseY}px)`;
+                });
+                
+                // Smooth cursor follower animation
+                function animateCursor() {
+                    followerX += (mouseX - followerX) * 0.1;
+                    followerY += (mouseY - followerY) * 0.1;
+                    
+                    cursorFollower.style.transform = `translate(${followerX}px, ${followerY}px)`;
+                    requestAnimationFrame(animateCursor);
+                }
+                
+                animateCursor();
+                
+                // Add cursor effects on interactive elements
+                const interactiveElements = document.querySelectorAll('a, button, .project-card, .skill-item, .nav-link');
+                
+                interactiveElements.forEach(el => {
+                    el.addEventListener('mouseenter', () => {
+                        cursorFollower.classList.add('active');
+                        cursorDot.style.transform += ' scale(1.5)';
+                    });
+                    
+                    el.addEventListener('mouseleave', () => {
+                        cursorFollower.classList.remove('active');
+                        cursorDot.style.transform = cursorDot.style.transform.replace(' scale(1.5)', '');
+                    });
+                });
+            }
+        });
+        
+        
+        // Experience Modal Functions
+        function openExperienceModal() {
+            const modal = document.getElementById('experienceModal');
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+        
+        function closeExperienceModal() {
+            const modal = document.getElementById('experienceModal');
+            modal.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+        
+        // ILINK DIGITAL Modal Functions
+        function openIlinkModal() {
+            const modal = document.getElementById('ilinkModal');
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+        
+        function closeIlinkModal() {
+            const modal = document.getElementById('ilinkModal');
+            modal.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+        
+        // Close modal when clicking outside
+        document.getElementById('experienceModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeExperienceModal();
+            }
+        });
+        
+        document.getElementById('ilinkModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeIlinkModal();
+            }
+        });
+        
+        // Close modal and mobile menu with Escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeExperienceModal();
+                closeIlinkModal();
+                
+                // Close mobile menu if open
+                const navbar = document.querySelector('.navbar');
+                if (navbar && navbar.classList.contains('mobile-active')) {
+                    const mobileToggle = document.getElementById('mobile-menu-toggle');
+                    const navOverlay = document.getElementById('nav-overlay');
+                    
+                    mobileToggle.classList.remove('active');
+                    navbar.classList.remove('mobile-active');
+                    navOverlay.classList.remove('active');
+                    document.body.style.overflow = 'auto';
+                }
+            }
+        });
+        
+        // Enhanced ripple effect function with sound and haptic feedback
+        function createRippleEffect(element, soundType = 'click') {
+            // Add haptic feedback for mobile devices
+            if (navigator.vibrate) {
+                navigator.vibrate(50); // Short vibration
+            }
+            
+            // Play sound effect
+            playSound(soundType);
+            
+            const ripple = document.createElement('span');
+            const rect = element.getBoundingClientRect();
+            const size = Math.max(rect.width, rect.height);
+            const x = rect.width / 2;
+            const y = rect.height / 2;
+            
+            ripple.style.cssText = `
+                position: absolute;
+                border-radius: 50%;
+                background: rgba(255, 255, 255, 0.6);
+                transform: scale(0);
+                left: ${x}px;
+                top: ${y}px;
+                width: ${size}px;
+                height: ${size}px;
+                margin-left: ${-size / 2}px;
+                margin-top: ${-size / 2}px;
+                animation: ripple 0.6s ease-out;
+                pointer-events: none;
+            `;
+            
+            element.style.position = 'relative';
+            element.style.overflow = 'hidden';
+            element.appendChild(ripple);
+            
+            setTimeout(() => {
+                ripple.remove();
+            }, 600);
+        }
+        
+        // Sound Effects System
+        const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        let soundsEnabled = true;
+        
+        // Generate different sound frequencies
+        function playSound(type) {
+            if (!soundsEnabled || !audioContext) return;
+            
+            const oscillator = audioContext.createOscillator();
+            const gainNode = audioContext.createGain();
+            
+            oscillator.connect(gainNode);
+            gainNode.connect(audioContext.destination);
+            
+            // Different sounds for different interactions
+            const sounds = {
+                click: { frequency: 800, duration: 0.1 },
+                hover: { frequency: 600, duration: 0.05 },
+                success: { frequency: 1000, duration: 0.2 },
+                error: { frequency: 300, duration: 0.3 },
+                notification: { frequency: 900, duration: 0.15 }
+            };
+            
+            const sound = sounds[type] || sounds.click;
+            
+            oscillator.frequency.setValueAtTime(sound.frequency, audioContext.currentTime);
+            oscillator.type = 'sine';
+            
+            gainNode.gain.setValueAtTime(0, audioContext.currentTime);
+            gainNode.gain.linearRampToValueAtTime(0.1, audioContext.currentTime + 0.01);
+            gainNode.gain.linearRampToValueAtTime(0, audioContext.currentTime + sound.duration);
+            
+            oscillator.start(audioContext.currentTime);
+            oscillator.stop(audioContext.currentTime + sound.duration);
+        }
+        
+        // Add sound effects to interactive elements
+        function addSoundEffects() {
+            // Navigation links
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.addEventListener('mouseenter', () => playSound('hover'));
+                link.addEventListener('click', () => playSound('click'));
+            });
+            
+            // Buttons
+            document.querySelectorAll('button, .btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    playSound('click');
+                    if (navigator.vibrate) {
+                        navigator.vibrate(30);
+                    }
+                });
+            });
+            
+            // Project cards
+            document.querySelectorAll('.row, .project-card').forEach(card => {
+                card.addEventListener('mouseenter', () => playSound('hover'));
+            });
+            
+            // Skill items
+            document.querySelectorAll('.skill-item').forEach(skill => {
+                skill.addEventListener('mouseenter', () => playSound('hover'));
+                skill.addEventListener('click', () => {
+                    playSound('click');
+                    if (navigator.vibrate) {
+                        navigator.vibrate([20, 10, 20]);
+                    }
+                });
+            });
+            
+            // Social links
+            document.querySelectorAll('.social-float-link, .hero-social-links a').forEach(social => {
+                social.addEventListener('mouseenter', () => playSound('hover'));
+                social.addEventListener('click', () => playSound('click'));
+            });
+        }
+        
+        // Initialize sound effects after user interaction (required by browsers)
+        function initializeAudio() {
+            if (audioContext.state === 'suspended') {
+                audioContext.resume();
+            }
+            addSoundEffects();
+        }
+        
+        // Sound toggle functionality
+        const soundToggle = document.createElement('button');
+        soundToggle.innerHTML = '<i class="fas fa-volume-up"></i>';
+        soundToggle.className = 'sound-toggle';
+        soundToggle.title = 'Toggle Sound Effects';
+        soundToggle.addEventListener('click', () => {
+            soundsEnabled = !soundsEnabled;
+            soundToggle.innerHTML = soundsEnabled ? 
+                '<i class="fas fa-volume-up"></i>' : 
+                '<i class="fas fa-volume-mute"></i>';
+            createRippleEffect(soundToggle, 'click');
+        });
+        
+        // Add sound toggle to header
+        const headerActions = document.querySelector('.header-actions');
+        if (headerActions) {
+            headerActions.insertBefore(soundToggle, headerActions.firstChild);
+        }
+        
+        // Initialize after first user interaction
+        document.addEventListener('click', initializeAudio, { once: true });
+        document.addEventListener('keydown', initializeAudio, { once: true });
+        
+    </script>
+
+</body>
+</html>
