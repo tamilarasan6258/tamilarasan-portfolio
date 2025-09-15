@@ -1105,7 +1105,10 @@
         </div>
     </section>
 
-  
+  <section class="footer-section">
+    &copy; 2025 Tamilarasan. All rights reserved.
+</section>
+
     
     <!-- Floating Action Elements -->
     <div class="floating-elements">
@@ -1143,13 +1146,6 @@
     <div class="cursor-follower" id="cursor-follower"></div>
     <div class="cursor-dot" id="cursor-dot"></div>
     
-    
-    <!-- Simple Footer -->
-    <footer class="footer">
-        <div class="container">
-            <p>&copy; 2024 Copyright Tamilarasan. All rights reserved.</p>
-        </div>
-    </footer>
 
     <!-- ILINK DIGITAL Experience Modal -->
     <div class="modal-overlay" id="ilinkModal">
@@ -1504,43 +1500,61 @@
 
             // Header scroll effect and progress bar
             const scrollToTopBtn = document.getElementById('scroll-to-top');
+            let isScrolling = false;
             
-            window.addEventListener('scroll', () => {
-                const header = document.querySelector('.header');
-                const progressBar = document.getElementById('scroll-progress');
-                const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-                
-                if (header) {
-                    header.classList.toggle('scrolled', scrollTop > 100);
+            function handleScroll() {
+                if (!isScrolling) {
+                    window.requestAnimationFrame(() => {
+                        const header = document.querySelector('.header');
+                        const progressBar = document.getElementById('scroll-progress');
+                        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+                        
+                        if (header) {
+                            header.classList.toggle('scrolled', scrollTop > 100);
+                        }
+                        
+                        // Update scroll progress bar
+                        if (progressBar) {
+                            const scrollHeight = document.documentElement.scrollHeight || document.body.scrollHeight;
+                            const clientHeight = document.documentElement.clientHeight;
+                            const scrollPercentage = (scrollTop / (scrollHeight - clientHeight)) * 100;
+                            
+                            progressBar.style.width = Math.min(scrollPercentage, 100) + '%';
+                        }
+                        
+                        // Show/hide scroll to top button
+                        if (scrollToTopBtn) {
+                            if (scrollTop > 300) {
+                                scrollToTopBtn.classList.add('visible');
+                            } else {
+                                scrollToTopBtn.classList.remove('visible');
+                            }
+                        }
+                        
+                        isScrolling = false;
+                    });
                 }
-                
-                // Update scroll progress bar
-                if (progressBar) {
-                    const scrollHeight = document.documentElement.scrollHeight || document.body.scrollHeight;
-                    const clientHeight = document.documentElement.clientHeight;
-                    const scrollPercentage = (scrollTop / (scrollHeight - clientHeight)) * 100;
-                    
-                    progressBar.style.width = Math.min(scrollPercentage, 100) + '%';
-                }
-                
-                // Show/hide scroll to top button
-                if (scrollToTopBtn) {
-                    if (scrollTop > 300) {
-                        scrollToTopBtn.classList.add('visible');
-                    } else {
-                        scrollToTopBtn.classList.remove('visible');
-                    }
-                }
-            });
+                isScrolling = true;
+            }
+            
+            window.addEventListener('scroll', handleScroll, { passive: true });
             
             // Scroll to top functionality
             if (scrollToTopBtn) {
-                scrollToTopBtn.addEventListener('click', () => {
+                scrollToTopBtn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    
                     window.scrollTo({
                         top: 0,
                         behavior: 'smooth'
                     });
-                    createRippleEffect(scrollToTopBtn);
+                    
+                    // Simple visual feedback without sound
+                    scrollToTopBtn.style.transform = 'scale(0.95)';
+                    setTimeout(() => {
+                        scrollToTopBtn.style.transform = '';
+                    }, 150);
                 });
             }
             
